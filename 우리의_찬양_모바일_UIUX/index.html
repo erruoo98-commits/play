@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
-:root{--bg:#ffffff;--ink:#151515;--sub:#8a8a8a;--red:#c8372d;--on:#fff;--line:#e8e8e8;--rec:#151515;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--ink:#f2f2f2;--sub:#8c8c8c;--red:#e0483c;--on:#fff;--line:#2c2c2c;--rec:#000}}
-:root[data-theme="dark"]{--bg:#111;--ink:#f2f2f2;--sub:#8c8c8c;--red:#e0483c;--on:#fff;--line:#2c2c2c;--rec:#000}
+:root{--bg:#ffffff;--ink:#151515;--sub:#8a8a8a;--red:#c8372d;--on:#fff;--line:#e8e8e8;--rec:#151515;--glass:rgba(255,255,255,.6);--gb:rgba(0,0,0,.07);--gs:0 6px 18px rgba(0,0,0,.06);--cv:rgba(21,21,21,.6);--cvon:rgba(200,55,45,.6);--pillbg:rgba(255,255,255,.95);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--ink:#f2f2f2;--sub:#8c8c8c;--red:#e0483c;--on:#fff;--line:#2c2c2c;--rec:#000;--glass:rgba(255,255,255,.07);--gb:rgba(255,255,255,.12);--gs:0 6px 18px rgba(0,0,0,.4);--cv:rgba(242,242,242,.22);--cvon:rgba(224,72,60,.6);--pillbg:rgba(255,255,255,.16);}}
+:root[data-theme="dark"]{--bg:#111;--ink:#f2f2f2;--sub:#8c8c8c;--red:#e0483c;--on:#fff;--line:#2c2c2c;--rec:#000;--glass:rgba(255,255,255,.07);--gb:rgba(255,255,255,.12);--gs:0 6px 18px rgba(0,0,0,.4);--cv:rgba(242,242,242,.22);--cvon:rgba(224,72,60,.6);--pillbg:rgba(255,255,255,.16);}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Quicksand","Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif}
 .app{max-width:430px;margin:0 auto;padding:16px 18px 48px;overflow:hidden}
@@ -37,36 +37,45 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Quicksand"
 .lab{font-size:10px;letter-spacing:.18em;color:var(--red);font-weight:700;margin-bottom:8px}
 .ttl{font-family:"Quicksand","Noto Sans KR",sans-serif;font-weight:700;font-size:38px;line-height:1.08;letter-spacing:-.03em;word-break:keep-all}
 .who{font-size:12px;color:var(--sub);margin-top:12px}
-.prog{height:2px;background:var(--line);margin-top:6px}
-.prog i{display:block;height:100%;width:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%}
-.time{display:flex;justify-content:space-between;font-size:10px;color:var(--sub);margin-top:6px;letter-spacing:.08em}
-.ctr{display:flex;align-items:center;justify-content:center;gap:26px;margin:18px 0 6px}
-.ib{border:0;background:none;color:var(--ink);font-size:20px;cursor:pointer;padding:6px}
+.seek{padding:12px 0;margin-top:-4px;cursor:pointer;touch-action:none}
+.prog{position:relative;height:4px;border-radius:4px;background:var(--line)}
+.knob{position:absolute;top:50%;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(200,55,45,.18)}
+.prog i{display:block;height:100%;width:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%;border-radius:4px}
+.time{display:flex;justify-content:space-between;font-size:10px;color:var(--sub);margin-top:-2px;letter-spacing:.08em}
+.ctr{display:flex;align-items:center;justify-content:center;gap:16px;margin:14px 0 6px}
+.ib{width:46px;height:46px;border-radius:50%;border:1px solid var(--gb);background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--gs);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.ib svg,.pp svg{width:20px;height:20px;fill:currentColor;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round}
+.ib.sm{width:40px;height:40px}.ib.sm svg{width:17px;height:17px}
+.ib svg.ln{fill:none;stroke-width:2;stroke-linecap:round}
 
 .ppw{position:relative;width:58px;height:58px}
 
 .pulse{position:absolute;inset:0;border-radius:50%;background:var(--red);opacity:0}
 
-.pp{position:relative;width:58px;height:58px;border-radius:50%;border:0;background:var(--red);color:var(--on);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.pp{position:relative;width:58px;height:58px;border-radius:50%;border:0;background:var(--red);color:var(--on);font-size:20px;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(200,55,45,.35)}
 
 .pp span{display:block}
 
-.tabs{position:relative;display:flex;gap:22px;margin:22px 0 4px;border-bottom:1px solid var(--line)}
-.tab{border:0;background:none;padding:10px 0;font-family:inherit;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;letter-spacing:.04em;transition:color .3s}
+.tabs{position:relative;display:flex;gap:2px;margin:18px 0 6px;padding:4px;border-radius:16px;border:1px solid var(--gb);background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--gs)}
+.tab{position:relative;z-index:1;flex:1;border:0;background:none;padding:10px 6px;border-radius:12px;font-family:inherit;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;letter-spacing:.04em;transition:color .3s}
 .tab.on{color:var(--ink)}
-.ind{position:absolute;left:0;bottom:-1px;height:2px;width:50px;background:var(--red)}
+.ind{position:absolute;left:0;top:4px;bottom:4px;width:50px;border-radius:12px;background:var(--pillbg);box-shadow:0 2px 10px rgba(0,0,0,.08)}
 .sec{font-size:10px;letter-spacing:.2em;color:var(--red);font-weight:700;margin:18px 0 4px}
-.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.item{margin:8px 0}
+.row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;border:1px solid var(--gb);background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--gs);cursor:pointer;transition:background .3s,border-color .3s}
+.row.on{background:rgba(200,55,45,.08);border-color:rgba(200,55,45,.3)}
 .n{width:22px;font-size:10px;color:var(--sub);letter-spacing:.05em}
-.cv{width:42px;height:42px;flex:none;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:"Quicksand","Noto Sans KR",sans-serif;font-weight:700;font-size:17px;transition:background .3s}
-.row.on .cv{background:var(--red);color:#fff}
+.cv{width:42px;height:42px;flex:none;border-radius:11px;background:var(--cv);color:#fff;display:grid;place-items:center;font-family:"Quicksand","Noto Sans KR",sans-serif;font-weight:700;font-size:17px;transition:background .3s}
+.row.on .cv{background:var(--cvon);color:#fff}
 .row .t{font-size:14px;font-weight:700;transition:color .3s}
 .row.on .t{color:var(--red)}
 .row .s{font-size:11px;color:var(--sub);margin-top:1px}
 .row .d{margin-left:auto;font-size:11px;color:var(--sub)}
-.det{padding:18px 0 4px}
-.det h2{font-family:"Quicksand","Noto Sans KR",sans-serif;font-weight:700;letter-spacing:-.02em;font-size:30px;line-height:1.1;margin:6px 0 12px}
-.det p{margin:0;font-size:14px;line-height:1.8;color:var(--sub);border-left:2px solid var(--red);padding-left:12px}
+.why{height:0;opacity:0;overflow:hidden}
+.why-in{margin:6px 4px 2px;padding:12px 14px;border-radius:14px;border:1px solid var(--gb);background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.wl{font-size:10px;letter-spacing:.2em;color:var(--red);font-weight:700}
+.wt{font-size:15px;font-weight:700;margin:5px 0 6px}
+.why-in p{margin:0;font-size:13px;line-height:1.75;color:var(--sub);border-left:2px solid var(--red);padding-left:10px}
 .hint{font-size:12px;color:var(--sub);padding:20px 0;text-align:center}
 </style>
 </head>
@@ -88,14 +97,14 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Quicksand"
     </div>
   </div>
 
-  <div class="prog"><i id="fill"></i></div>
+  <div class="seek" id="seek"><div class="prog"><i id="fill"></i><span class="knob" id="knob"></span></div></div>
   <div class="time"><span id="cur">0:00</span><span id="dur">0:00</span></div>
   <div class="ctr">
-    <button class="ib" id="shuf" title="랜덤 섞기">⤮</button>
-    <button class="ib" id="prev">⏮</button>
+    <button class="ib sm" id="shuf" title="랜덤 섞기" aria-label="랜덤 섞기"><svg class="ln" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></button>
+    <button class="ib" id="prev" aria-label="이전 곡"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg></button>
     <div class="ppw"><div class="pulse" id="pulse"></div>
-    <button class="pp" id="pp"><span id="ic">▶</span></button></div>
-    <button class="ib" id="next">⏭</button>
+    <button class="pp" id="pp" aria-label="재생/일시정지"><span id="ic"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button></div>
+    <button class="ib" id="next" aria-label="다음 곡"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button>
   </div>
 
   <div class="tabs" id="tabs">
@@ -114,23 +123,39 @@ const DATA=[
  {who:"유주선",g:"형제",title:"주 품에",reason:"힘들 때마다 이 찬양을 부르면 마음이 놓여요.",dur:215,src:""},
  {who:"표대훈",g:"형제",title:"나 같은 죄인 살리신",reason:"은혜가 제일 크게 느껴지는 찬양이라서 좋아해요.",dur:238,src:""},
  {who:"김태일",g:"형제",title:"내 영혼아 찬양하라",reason:"아침마다 감사를 고백하게 해줘요.",dur:204,src:""},
- {who:"심효선",g:"자매",title:"주님 너무 아름다워",reason:"가사가 예배의 중심을 다시 알려줘요.",dur:226,src:""},
- {who:"홍어진",g:"자매",title:"어찌 날 위해",reason:"십자가의 사랑을 생각하며 늘 눈물이 나요.",dur:247,src:""},
- {who:"김정민",g:"자매",title:"예수 사랑하심은",reason:"어릴 때부터 불러서 가장 편안한 찬양이에요.",dur:190,src:""},
+ {who:"박중혁",g:"형제",title:"주 품에",reason:"힘들 때마다 이 찬양을 부르면 마음이 놓여요.",dur:215,src:""},
+ {who:"준호",g:"형제",title:"나 같은 죄인 살리신",reason:"은혜가 제일 크게 느껴지는 찬양이라서 좋아해요.",dur:238,src:""},
+ {who:"지훈",g:"형제",title:"내 영혼아 찬양하라",reason:"아침마다 감사를 고백하게 해줘요.",dur:204,src:""},
+  {who:"유주선",g:"형제",title:"주 품에",reason:"힘들 때마다 이 찬양을 부르면 마음이 놓여요.",dur:215,src:""},
+ {who:"표대훈",g:"형제",title:"나 같은 죄인 살리신",reason:"은혜가 제일 크게 느껴지는 찬양이라서 좋아해요.",dur:238,src:""},
+ {who:"김태일",g:"형제",title:"내 영혼아 찬양하라",reason:"아침마다 감사를 고백하게 해줘요.",dur:204,src:""},
  {who:"민수",g:"형제",title:"주 품에",reason:"힘들 때마다 이 찬양을 부르면 마음이 놓여요.",dur:215,src:""},
  {who:"준호",g:"형제",title:"나 같은 죄인 살리신",reason:"은혜가 제일 크게 느껴지는 찬양이라서 좋아해요.",dur:238,src:""},
  {who:"지훈",g:"형제",title:"내 영혼아 찬양하라",reason:"아침마다 감사를 고백하게 해줘요.",dur:204,src:""},
  {who:"은혜",g:"자매",title:"주님 너무 아름다워",reason:"가사가 예배의 중심을 다시 알려줘요.",dur:226,src:""},
  {who:"수진",g:"자매",title:"어찌 날 위해",reason:"십자가의 사랑을 생각하며 늘 눈물이 나요.",dur:247,src:""},
- {who:"하은",g:"자매",title:"예수 사랑하심은",reason:"어릴 때부터 불러서 가장 편안한 찬양이에요.",dur:190,src:""}
+ {who:"하은",g:"자매",title:"예수 사랑하심은",reason:"어릴 때부터 불러서 가장 편안한 찬양이에요.",dur:190,src:""},
+  {who:"심효선",g:"자매",title:"주님 너무 아름다워",reason:"가사가 예배의 중심을 다시 알려줘요.",dur:226,src:""},
+ {who:"홍어진",g:"자매",title:"어찌 날 위해",reason:"십자가의 사랑을 생각하며 늘 눈물이 나요.",dur:247,src:""},
+ {who:"김정민",g:"자매",title:"예수 사랑하심은",reason:"어릴 때부터 불러서 가장 편안한 찬양이에요.",dur:190,src:""},
+  {who:"정은주",g:"자매",title:"주님 너무 아름다워",reason:"가사가 예배의 중심을 다시 알려줘요.",dur:226,src:""},
+ {who:"최태림",g:"자매",title:"어찌 날 위해",reason:"십자가의 사랑을 생각하며 늘 눈물이 나요.",dur:247,src:""},
+ {who:"김서인",g:"자매",title:"예수 사랑하심은",reason:"어릴 때부터 불러서 가장 편안한 찬양이에요.",dur:190,src:""},
+  {who:"정윤서",g:"자매",title:"주님 너무 아름다워",reason:"가사가 예배의 중심을 다시 알려줘요.",dur:226,src:""},
+ {who:"이예진",g:"자매",title:"어찌 날 위해",reason:"십자가의 사랑을 생각하며 늘 눈물이 나요.",dur:247,src:""},
+ {who:"김정민",g:"자매",title:"예수 사랑하심은",reason:"어릴 때부터 불러서 가장 편안한 찬양이에요.",dur:190,src:""},
 ];
 const $=id=>document.getElementById(id), C=917.4;
 const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
 const pad=n=>String(n).padStart(2,"0");
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 
-let all=shuffle(DATA), queue=all, cur=null, playing=false, t=0, tab="all", sel=null, rows=[];
+const SORTED=[...DATA].sort((a,b)=>a.who.localeCompare(b.who,"ko")); // 가나다순
+const BY_TITLE=[...DATA].sort((a,b)=>a.title.localeCompare(b.title,"ko")); // 전체 재생목록: 찬양 제목 가나다순
+let randomMode=false;
+let all=BY_TITLE, queue=all, cur=null, playing=false, t=0, tab="all", sel=null, rows=[];
 const audio=new Audio();
+const ICON={play:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',pause:'<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'};
 
 /* ---------- GSAP: 레코드 회전 (가속/감속) ---------- */
 const spin=gsap.to("#vinyl",{rotation:"+=360",duration:3.4,ease:"none",repeat:-1});
@@ -145,7 +170,7 @@ function setPlaying(on){
   gsap.to("#arm",{rotation:on?armAngle(cur?t/dur():0):12,duration:1.1,ease:on?"back.out(1.4)":"power2.inOut",overwrite:true});
   on?pulse.play():(pulse.pause(),gsap.to("#pulse",{opacity:0,duration:.3}));
   gsap.fromTo("#ic",{rotation:-90,scale:.5,opacity:0},{rotation:0,scale:1,opacity:1,duration:.4,ease:"back.out(2)"});
-  $("ic").textContent=on?"⏸":"▶";
+  $("ic").innerHTML=on?ICON.pause:ICON.play;
 }
 const dur=()=>cur.src&&audio.duration?audio.duration:cur.dur;
 
@@ -159,7 +184,7 @@ function load(s,list){
   /* 톤암: 들었다가 다시 내려놓기 + 레코드 살짝 튕김 */
   if(playing){gsap.timeline({overwrite:true}).to("#arm",{rotation:12,duration:.35,ease:"power2.in"}).to("#arm",{rotation:armAngle(0),duration:.9,ease:"back.out(1.4)"});}
   gsap.fromTo("#ring",{scale:.96},{scale:1,duration:.9,ease:"elastic.out(1,.45)"});
-  gsap.set("#fill",{scaleX:0}); gsap.set("#arc",{strokeDashoffset:C}); $("cur").textContent="0:00";
+  gsap.set("#fill",{scaleX:0}); gsap.set("#knob",{left:"0%"}); gsap.set("#arc",{strokeDashoffset:C}); $("cur").textContent="0:00";
   markActive();
 }
 function play(s,list){load(s,list); if(s.src)audio.play().catch(()=>{}); setPlaying(true)}
@@ -173,12 +198,13 @@ function step(d){
   const i=(queue.indexOf(cur)+d+queue.length)%queue.length;
   load(queue[i]); if(playing&&queue[i].src)audio.play().catch(()=>{});
 }
-function upd(){
+function upd(d=1){
   if(!cur)return;
   const p=Math.min(1,t/dur());
-  gsap.to("#fill",{scaleX:p,duration:1,ease:"none",overwrite:true});
-  gsap.to("#arc",{strokeDashoffset:C*(1-p),duration:1,ease:"none",overwrite:true});
-  gsap.to("#arm",{rotation:armAngle(p),duration:1,ease:"none",overwrite:true});
+  gsap.to("#fill",{scaleX:p,duration:d,ease:"none",overwrite:true});
+  gsap.to("#knob",{left:(p*100)+"%",duration:d,ease:"none",overwrite:true});
+  gsap.to("#arc",{strokeDashoffset:C*(1-p),duration:d,ease:"none",overwrite:true});
+  gsap.to("#arm",{rotation:armAngle(p),duration:d,ease:"none",overwrite:true});
   $("cur").textContent=fmt(t);
 }
 setInterval(()=>{
@@ -196,34 +222,41 @@ function markActive(){
   });
 }
 let rowsList=[];
-function updateDet(anim){
-  const d=$("det"); if(!d)return;
-  if(sel&&sel.g===tab){
-    d.innerHTML=`<div class="det"><div class="sec" style="margin-top:0">WHY THIS SONG</div><h2>${sel.title}</h2><p>${sel.reason}</p></div>`;
-    if(anim)gsap.from("#det .det > *",{y:18,opacity:0,stagger:.1,duration:.6,ease:"power3.out"});
-  }else d.innerHTML='<div class="hint">이름을 눌러 찬양과 이유를 확인하세요</div>';
+function showWhy(anim){
+  document.querySelectorAll(".why").forEach((w,i)=>{
+    const on=sel&&rowsList[i]===sel;
+    if(on&&!w.dataset.open){
+      w.dataset.open="1";
+      gsap.to(w,{height:"auto",opacity:1,duration:anim?.5:0,ease:"power3.out"});
+      if(anim)gsap.from(w.querySelectorAll(".why-in > *"),{y:10,opacity:0,stagger:.07,duration:.45,delay:.1,ease:"power3.out"});
+    }else if(!on&&w.dataset.open){
+      delete w.dataset.open;
+      gsap.to(w,{height:0,opacity:0,duration:anim?.35:0,ease:"power2.inOut"});
+    }
+  });
 }
 function render(){
   const v=$("view");
   if(tab==="all"){
     rowsList=all;
-    v.innerHTML='<div class="sec">AUTO PLAYLIST · RANDOM</div>'+all.map((s,i)=>
-      `<div class="row"><div class="n">${pad(i+1)}</div><div class="cv">${s.who[0]}</div>
-       <div><div class="t">${s.title}</div><div class="s">${s.who} ${s.g}</div></div><div class="d">${fmt(s.dur)}</div></div>`).join("");
+    v.innerHTML='<div class="sec">AUTO PLAYLIST · '+(randomMode?"RANDOM":"가나다순")+'</div>'+all.map((s,i)=>
+      `<div class="item"><div class="row"><div class="n">${pad(i+1)}</div><div class="cv">${s.who[0]}</div>
+       <div><div class="t">${s.title}</div><div class="s">${s.who} ${s.g}</div></div><div class="d">${fmt(s.dur)}</div></div></div>`).join("");
   }else{
-    rowsList=DATA.filter(s=>s.g===tab);
-    v.innerHTML='<div class="sec">'+(tab==="형제"?"BROTHERS":"SISTERS")+'</div>'+rowsList.map((s,i)=>
-      `<div class="row"><div class="n">${pad(i+1)}</div><div class="cv">${s.who[0]}</div>
-       <div><div class="t">${s.who}</div><div class="s">눌러서 듣기</div></div><div class="d">${fmt(s.dur)}</div></div>`).join("")+'<div id="det"></div>';
+    rowsList=SORTED.filter(s=>s.g===tab);
+    v.innerHTML='<div class="sec">'+(tab==="형제"?"BROTHERS":"SISTERS")+'</div>'+(sel&&sel.g===tab?'':'<div class="hint">이름을 눌러 찬양과 이유를 확인하세요</div>')+rowsList.map((s,i)=>
+      `<div class="item"><div class="row"><div class="n">${pad(i+1)}</div><div class="cv">${s.who[0]}</div>
+       <div><div class="t">${s.who}</div><div class="s">눌러서 듣기</div></div><div class="d">${fmt(s.dur)}</div></div>
+       <div class="why"><div class="why-in"><div class="wl">WHY THIS SONG</div><div class="wt">♪ ${s.title}</div><p>${s.reason}</p></div></div></div>`).join("");
   }
   rows=[...v.querySelectorAll(".row")];
   rows.forEach((r,i)=>{
     r.onclick=()=>{
       gsap.fromTo(r.querySelector(".cv"),{scale:.8},{scale:1,duration:.6,ease:"elastic.out(1,.4)"});
-      if(tab!=="all"){sel=rowsList[i]; play(sel,rowsList); updateDet(true)} else play(rowsList[i],all);
+      if(tab!=="all"){sel=rowsList[i]; play(sel,rowsList); showWhy(true); const h=document.querySelector(".hint"); if(h)h.remove()} else play(rowsList[i],all);
     };
   });
-  updateDet(false); markActive();
+  showWhy(false); markActive();
   gsap.from("#view .sec, #view .row, #view .hint",{y:20,opacity:0,stagger:.06,duration:.55,ease:"power3.out"});
 }
 
@@ -244,9 +277,25 @@ document.querySelectorAll(".ib,.pp,.tab").forEach(el=>{
   el.addEventListener("pointerdown",()=>gsap.to(el,{scale:.86,duration:.12}));
   ["pointerup","pointerleave","pointercancel"].forEach(e=>el.addEventListener(e,()=>gsap.to(el,{scale:1,duration:.6,ease:"elastic.out(1,.4)",overwrite:"auto"})));
 });
+/* 진행바를 누르거나 끌면 그 위치부터 재생 */
+function seekTo(x){
+  if(!cur)return;
+  const r=$("seek").getBoundingClientRect();
+  const p=Math.max(0,Math.min(1,(x-r.left)/r.width));
+  t=p*dur();
+  if(cur.src&&audio.duration)audio.currentTime=t;
+  upd(.2);
+}
+let seeking=false;
+$("seek").addEventListener("pointerdown",e=>{seeking=true;$("seek").setPointerCapture(e.pointerId);seekTo(e.clientX)});
+$("seek").addEventListener("pointermove",e=>{if(seeking)seekTo(e.clientX)});
+["pointerup","pointercancel"].forEach(ev=>$("seek").addEventListener(ev,()=>{seeking=false}));
 $("pp").onclick=toggle; $("prev").onclick=()=>step(-1); $("next").onclick=()=>step(1);
 $("shuf").onclick=()=>{
-  all=shuffle(DATA); if(tab==="all")queue=all; render();
+  randomMode=!randomMode;
+  all=randomMode?shuffle(DATA):BY_TITLE;
+  if(tab==="all")queue=all; render();
+  $("shuf").style.color=randomMode?"var(--red)":"";
   gsap.fromTo("#shuf",{rotation:0},{rotation:360,duration:.6,ease:"back.out(1.6)"});
 };
 
